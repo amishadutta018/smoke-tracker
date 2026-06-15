@@ -3,260 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aesthetic Smoke Tracker</title>
+    <title>Global Smoke Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
+        /* Exact same aesthetic CSS from your previous version */
         :root {
             --bg-main: #000000;
             --bg-card: rgba(15, 15, 15, 0.6);
             --border-glow: rgba(255, 255, 255, 0.08);
-            
             --font-display: 'Space Grotesk', sans-serif;
             --font-ui: 'Outfit', sans-serif;
-            
             --text-primary: #ffffff;
             --text-labels: #00e6b8; 
-            
             --color-cigarette: #ff3b30;
             --color-puffs: #ff9f0a;
             --color-vape: #5e5ce6;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-ui);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            background-image: radial-gradient(circle at 50% 0%, #111111 0%, #000000 70%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-        }
-
-        .wrapper {
-            width: 100%;
-            max-width: 600px; /* Scaled down width slightly */
-            background-color: var(--bg-card);
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glow);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.05);
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        h1 {
-            font-family: var(--font-display);
-            font-size: 1.4rem; /* Reduced font size */
-            font-weight: 700;
-            letter-spacing: -1px;
-            color: var(--text-primary);
-        }
-
-        .filter-select {
-            background: rgba(0, 0, 0, 0.5);
-            color: var(--text-primary);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 14px; /* Scaled down */
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 400;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color-scheme: dark; /* Makes the calendar popup dark mode */
-        }
-
-        .filter-select:hover {
-            border-color: rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.05);
-        }
-
-        .metrics-summary-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .metric-avg-card {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border-glow);
-            border-radius: 16px;
-            padding: 15px 20px; /* Reduced padding */
-        }
-
-        .metric-avg-label {
-            font-family: var(--font-ui);
-            font-size: 0.7rem; /* Reduced font size */
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-labels);
-            margin-bottom: 5px;
-            opacity: 0.9;
-        }
-
-        .metric-avg-value {
-            font-family: var(--font-display);
-            font-size: 2.2rem; /* Reduced font size */
-            font-weight: 700;
-            letter-spacing: -1px;
-            color: var(--text-primary);
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .chart-container {
-            position: relative;
-            width: 100%;
-            height: 240px; /* Scaled down height */
-            margin-bottom: 25px;
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 16px;
-            border: 1px solid var(--border-glow);
-        }
-
-        .btn-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .log-btn {
-            font-family: var(--font-display);
-            color: #ffffff;
-            border: none;
-            padding: 18px 8px; /* Reduced padding */
-            font-size: 0.95rem; /* Reduced font size */
-            font-weight: 700;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .log-btn span.counter {
-            font-family: var(--font-ui);
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.9);
-            background: rgba(0, 0, 0, 0.25);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-ui); -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg-main); background-image: radial-gradient(circle at 50% 0%, #111111 0%, #000000 70%); color: var(--text-primary); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 15px; }
+        .wrapper { width: 100%; max-width: 600px; background-color: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-glow); border-radius: 20px; padding: 25px; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.05); }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        h1 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; letter-spacing: -1px; color: var(--text-primary); }
+        
+        .filter-select { background: rgba(0, 0, 0, 0.5); color: var(--text-primary); border: 1px solid rgba(255,255,255,0.1); padding: 8px 14px; border-radius: 10px; font-size: 0.85rem; font-weight: 400; outline: none; cursor: pointer; transition: all 0.3s ease; color-scheme: dark; }
+        .filter-select:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
+        
+        .metrics-summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
+        .metric-avg-card { background: rgba(0,0,0,0.4); border: 1px solid var(--border-glow); border-radius: 16px; padding: 15px 20px; }
+        .metric-avg-label { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-labels); margin-bottom: 5px; opacity: 0.9; }
+        .metric-avg-value { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; color: var(--text-primary); text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); }
+        
+        .chart-container { position: relative; width: 100%; height: 240px; margin-bottom: 25px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 16px; border: 1px solid var(--border-glow); }
+        
+        .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+        .log-btn { font-family: var(--font-display); color: #ffffff; border: none; padding: 18px 8px; font-size: 0.95rem; font-weight: 700; border-radius: 14px; cursor: pointer; transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .log-btn span.counter { font-family: var(--font-ui); font-size: 0.75rem; color: rgba(255,255,255,0.9); background: rgba(0, 0, 0, 0.25); padding: 3px 10px; border-radius: 12px; font-weight: 600; }
+        
         .btn-cigarette { background-color: var(--color-cigarette); }
         .btn-puffs { background-color: var(--color-puffs); color: #000; } 
         .btn-puffs span.counter { color: #000; background: rgba(255,255,255,0.3); }
         .btn-vape { background-color: var(--color-vape); }
+        
+        .log-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+        .log-btn:active { transform: scale(0.96); }
 
-        .log-btn:hover {
-            transform: translateY(-3px);
-            filter: brightness(1.1);
-        }
-        .log-btn:active {
-            transform: scale(0.96);
-        }
+        .retro-log-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border-glow); border-radius: 14px; padding: 15px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+        .retro-label { font-size: 0.8rem; color: #888; width: 100%; margin-bottom: -5px; }
+        .retro-input { flex: 1; min-width: 110px; }
+        .add-retro-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .add-retro-btn:hover { background: rgba(255,255,255,0.2); }
 
-        /* New Retroactive Logging Section */
-        .retro-log-box {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--border-glow);
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .retro-label {
-            font-size: 0.8rem;
-            color: #888;
-            width: 100%;
-            margin-bottom: -5px;
-        }
-
-        .retro-input {
-            flex: 1;
-            min-width: 110px;
-        }
-
-        .add-retro-btn {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .add-retro-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .meta-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border-glow);
-            padding-top: 20px;
-        }
-
-        .frequency-text {
-            font-size: 0.8rem;
-            color: #888888;
-        }
-
-        .danger-zone-btn {
-            font-family: var(--font-display);
-            background: none;
-            border: none;
-            color: #555555;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .danger-zone-btn:hover {
-            color: var(--color-cigarette);
-        }
+        .meta-controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-glow); padding-top: 20px; }
+        .frequency-text { font-size: 0.8rem; color: #888888; }
+        .danger-zone-btn { font-family: var(--font-display); background: none; border: none; color: #555555; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+        .danger-zone-btn:hover { color: var(--color-cigarette); }
+        
+        /* Loading overlay to indicate network sync */
+        #sync-indicator { font-size: 0.75rem; color: var(--text-labels); display: none; }
     </style>
 </head>
 <body>
 
     <div class="wrapper">
         <header>
-            <h1>Analytics</h1>
+            <div style="display:flex; align-items:center; gap: 10px;">
+                <h1>Global Analytics</h1>
+                <span id="sync-indicator">↻ Syncing...</span>
+            </div>
             <select class="filter-select" id="view-filter">
                 <option value="all">Combined View</option>
                 <option value="cigarette">Cigarettes</option>
@@ -308,91 +126,107 @@
 
         <div class="meta-controls">
             <div class="frequency-text" id="total-status-text">Total records: 0</div>
-            <button class="danger-zone-btn" id="purge-data-trigger">Reset Data</button>
+            <button class="danger-zone-btn" id="purge-data-trigger">Global Reset</button>
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // ==========================================
+        // PASTE YOUR FIREBASE CONFIG OBJECT HERE
+        // ==========================================
+        const firebaseConfig = {
+        apiKey: "AIzaSyC4ltrtomGNWDD3SI0dZEjbwWvmgAcmr3c",
+        authDomain: "smoke-tracker-dbfff.firebaseapp.com",
+        projectId: "smoke-tracker-dbfff",
+        storageBucket: "smoke-tracker-dbfff.firebasestorage.app",
+        messagingSenderId: "821770223547",
+        appId: "1:821770223547:web:d72423313390ea83ddce9e",
+        measurementId: "G-JSMLFDCY06"
+        };
+        // ==========================================
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const logsRef = ref(db, 'smokeLogs/');
+
+        // DOM Elements
         const viewFilter = document.getElementById('view-filter');
         const purgeBtn = document.getElementById('purge-data-trigger');
         const totalStatusText = document.getElementById('total-status-text');
         const avgDayDisplay = document.getElementById('avg-day-val');
         const avgWeekDisplay = document.getElementById('avg-week-val');
+        const syncIndicator = document.getElementById('sync-indicator');
         const ctx = document.getElementById('frequencyChart').getContext('2d');
         
         const cigBadge = document.getElementById('count-cig');
         const puffsBadge = document.getElementById('count-puffs');
         const vapeBadge = document.getElementById('count-vape');
 
-        // Retro Controls
         const retroDateInput = document.getElementById('retro-date');
         const retroTypeInput = document.getElementById('retro-type');
         const addRetroBtn = document.getElementById('add-retro-btn');
 
-        let productLogs = JSON.parse(localStorage.getItem('categorizedSmokeLogs')) || [];
+        let productLogs = [];
         let dataVisualizerChart = null;
 
-        const colorPalette = {
-            all: '#ffffff',
-            cigarette: '#ff3b30',
-            puffs: '#ff9f0a',
-            vape: '#5e5ce6'
-        };
+        const colorPalette = { all: '#ffffff', cigarette: '#ff3b30', puffs: '#ff9f0a', vape: '#5e5ce6' };
 
-        syncInterface();
+        // 1. REALTIME LISTENER: This handles the cross-device sync.
+        // Whenever anyone adds or deletes data, this function fires instantly.
+        onValue(logsRef, (snapshot) => {
+            syncIndicator.style.display = 'inline';
+            const data = snapshot.val();
+            
+            // Convert Firebase object map to a standard array
+            productLogs = [];
+            if (data) {
+                for (let key in data) {
+                    productLogs.push(data[key]);
+                }
+            }
+            
+            syncInterface();
+            setTimeout(() => { syncIndicator.style.display = 'none'; }, 500);
+        });
 
-        // 1. Live Button Logging
+        // 2. LIVE BUTTON LOGGING: Pushing data to the cloud
         document.querySelectorAll('.log-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const logPayload = {
                     type: e.currentTarget.getAttribute('data-type'),
                     timestamp: new Date().toISOString()
                 };
-                productLogs.push(logPayload);
-                persistAndReload();
+                push(logsRef, logPayload); // Sends directly to Firebase
             });
         });
 
-        // 2. Retroactive Logging Logic
+        // 3. RETROACTIVE LOGGING
         addRetroBtn.addEventListener('click', () => {
-            const selectedDate = retroDateInput.value; // Format: YYYY-MM-DD
-            if (!selectedDate) {
-                alert("Please select a valid past date to log.");
-                return;
-            }
+            const selectedDate = retroDateInput.value;
+            if (!selectedDate) { alert("Please select a valid past date to log."); return; }
 
-            // Append a generic time (12:00 PM) to the selected date string to make a valid timestamp
             const simulatedTimestamp = new Date(`${selectedDate}T12:00:00`).toISOString();
-            
-            const logPayload = {
-                type: retroTypeInput.value,
-                timestamp: simulatedTimestamp
-            };
+            const logPayload = { type: retroTypeInput.value, timestamp: simulatedTimestamp };
 
-            productLogs.push(logPayload);
-            persistAndReload();
-            
-            // Clear date picker after success
+            push(logsRef, logPayload);
             retroDateInput.value = ''; 
+        });
+
+        // 4. GLOBAL RESET
+        purgeBtn.addEventListener('click', () => {
+            if (confirm("WARNING: This will permanently wipe the database across ALL devices. Are you sure?")) {
+                set(logsRef, null); // Wipes the Firebase node completely
+            }
         });
 
         viewFilter.addEventListener('change', syncInterface);
 
-        purgeBtn.addEventListener('click', () => {
-            if (confirm("Permanently wipe all tracking databases?")) {
-                productLogs = [];
-                persistAndReload();
-            }
-        });
-
-        function persistAndReload() {
-            localStorage.setItem('categorizedSmokeLogs', JSON.stringify(productLogs));
-            syncInterface();
-        }
-
+        // Core Visualization Engine (Unchanged logic, just reading from cloud array now)
         function processHistoricalData(selectedFilter) {
             const trackingMap = {};
-            // Chronological sort guarantees old dates get injected correctly into the timeline
             productLogs.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
             const filteredArray = productLogs.filter(item => {
@@ -400,10 +234,7 @@
             });
 
             filteredArray.forEach(entry => {
-                const dateKey = new Date(entry.timestamp).toLocaleDateString([], { 
-                    month: 'short', 
-                    day: 'numeric' 
-                });
+                const dateKey = new Date(entry.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' });
                 trackingMap[dateKey] = (trackingMap[dateKey] || 0) + 1;
             });
 
@@ -417,11 +248,7 @@
                     data: Object.values(trackingMap),
                     borderColor: targetColor,
                     backgroundColor: `rgba(${parseInt(targetColor.slice(1,3),16)}, ${parseInt(targetColor.slice(3,5),16)}, ${parseInt(targetColor.slice(5,7),16)}, 0.1)`,
-                    borderWidth: 2, 
-                    pointBackgroundColor: targetColor,
-                    pointRadius: 4,
-                    tension: 0.3, 
-                    fill: true
+                    borderWidth: 2, pointBackgroundColor: targetColor, pointRadius: 4, tension: 0.3, fill: true
                 }]
             };
         }
@@ -434,19 +261,15 @@
             puffsBadge.textContent = counts.puffs;
             vapeBadge.textContent = counts.vape;
 
-            totalStatusText.textContent = `Total records: ${totalFilteredCount}`;
+            totalStatusText.textContent = `Total cloud records: ${totalFilteredCount}`;
 
             if (uniqueDaysCount === 0) {
-                avgDayDisplay.textContent = "0.0";
-                avgWeekDisplay.textContent = "0.0";
-                return;
+                avgDayDisplay.textContent = "0.0"; avgWeekDisplay.textContent = "0.0"; return;
             }
 
             const avgPerDay = (totalFilteredCount / uniqueDaysCount);
-            const avgPerWeek = avgPerDay * 7;
-
             avgDayDisplay.textContent = avgPerDay.toFixed(1);
-            avgWeekDisplay.textContent = avgPerWeek.toFixed(1);
+            avgWeekDisplay.textContent = (avgPerDay * 7).toFixed(1);
         }
 
         function syncInterface() {
@@ -455,39 +278,16 @@
 
             calculateAveragesAndBadges(activeFilterSelection, aggregationPayload.filteredTotal, aggregationPayload.labels.length);
 
-            if (dataVisualizerChart) {
-                dataVisualizerChart.destroy();
-            }
+            if (dataVisualizerChart) dataVisualizerChart.destroy();
 
             dataVisualizerChart = new Chart(ctx, {
                 type: 'line',
-                data: {
-                    labels: aggregationPayload.labels,
-                    datasets: aggregationPayload.datasets
-                },
+                data: { labels: aggregationPayload.labels, datasets: aggregationPayload.datasets },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { display: false }
-                    },
+                    responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
                     scales: {
-                        x: {
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: { 
-                                color: 'rgba(255,255,255,0.6)', 
-                                font: { size: 10, family: "'Space Grotesk', sans-serif" } 
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: { 
-                                color: 'rgba(255,255,255,0.6)', 
-                                stepSize: 1, 
-                                font: { size: 11, family: "'Space Grotesk', sans-serif" } 
-                            }
-                        }
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10, family: "'Space Grotesk', sans-serif" } } },
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.6)', stepSize: 1, font: { size: 11, family: "'Space Grotesk', sans-serif" } } }
                     }
                 }
             });
